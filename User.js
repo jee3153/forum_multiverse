@@ -6,12 +6,25 @@ class User {
     constructor(username) {
         this.id = v4();
         this.username = username;
-        // this.comments = new Comments();
-        // this.posts = new Posts();
+        this.comments = new Comments();
+        this.posts = new Posts();
+        this.admin = false;
     }
 
     editUsername(nameToChange) {
         this.username = nameToChange;
+    }
+
+    giveAuthority() {
+        this.admin = true;
+    }
+
+    isAdmin() {
+        return this.admin;
+    }
+
+    canPost() {
+        return this.comments.list.length >= 3;
     }
 }
 

@@ -14,15 +14,19 @@ class Forum {
     createPost(user, content, title) {
         const id = user.id;
         // console.log(this.users)
-        // const filtered = this.users.list.filter(u => u.id === id);
+        // const filtered = this.users.list.some(u => u.id === id);
         // console.log(filtered);
-        if (this.users.list.filter(u => u.id === id)) {
+        if (this.users.list.some(u => u.id === id) && user.canPost()) {
             // const filtered = this.users.list.filter(u => u.id !== id);
             this.posts.addPost(user, content, title);
         } else {
             throw new Error('user does not exist, create account first.');
         }
         
+    }
+
+    deletePost(post, user) {
+        this.posts.deletePost(post, user)
     }
 
     createUser(username) {

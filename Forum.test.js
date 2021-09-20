@@ -15,8 +15,10 @@ test('Forum sets forumName properly', () => {
 
 test('forum creates post properly', () => {
     const f = new Forum('Python Forum');
-    const user = new User('Adam');
-
+    // const user = new User('Adam');
+    f.createUser('Adam');
+    const user = f.users.list[0];
+    user.comments.list = ['c1', 'c2', 'c3'];
     f.createPost(user, 'content', 'title');
 
 
@@ -36,4 +38,16 @@ test('forum creates user properly', () => {
 
     expect(f.users.list[0].username).toBe('Chris');
 });
+
+test('forum deletes post properly', () => {
+    const f = new Forum('Python Forum');
+
+    f.createUser('Adam');
+    const user = f.users.list[0];
+    user.comments.list = ['c1', 'c2', 'c3'];
+    f.createPost(user, 'content', 'title');
+    const post = f.posts.list[0];
+    f.deletePost(post, user);
+    expect(f.posts.list).toHaveLength(0);
+})
 
