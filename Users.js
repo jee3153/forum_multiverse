@@ -8,6 +8,10 @@ class Users {
         const user = new User(username);
         this.list.push(user);
     }
+
+    addUser(user) {
+        this.list.push(user);
+    }
 }
 
 module.exports = Users;

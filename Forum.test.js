@@ -18,7 +18,8 @@ const UserPostCreated = (forum, fn) => {
 const userComment3times = (user, forum) => {
     for (let i = 0; i < 3; i++) {
         const cmm = new Comment(user, 'comm', forum.forumName);
-        user.comments.list.push(cmm);
+        forum.comments.list.push(cmm);
+        
     }
 }
 
@@ -28,21 +29,32 @@ test('Forum sets forumName properly', () => {
     expect(f.forumName).toBe('Python Forum');
 });
 
-test('forum creates post properly', () => {
-    const f = new Forum('Python Forum');
-    UserPostCreated(f, userComment3times);
+// test('forum creates post properly', () => {
+//     const f = new Forum('JS forum');
+//     const forumN = f.forumName;
+//     f.createUser('uzu');
+//     f.createUser('admin');
+//     const user = f.users.list[0];
+//     const admin = f.users.list[1];
+//     admin.giveAuthority();
+//     f
+//     post.addComment(user, 'c1');
+//     post.addComment(user, 'c1');
+//     post.addComment(user, 'c1');
+//     f.posts.list.push(post);
+//     f.createPost(user, 'post', 'sub');
+//     const expectedContent = 'post';
+//     const expectedTitle = 'sub';
+//     const expectedUserName = 'uzu';
+//     console.log(`user list ${f.users.posts[0]}`);
 
-
-    const expectedContent = 'content';
-    const expectedTitle = 'title';
-
-    expect(f.posts.list[0].content).toBe(expectedContent);
-    expect(f.posts.list[0].title).toBe(expectedTitle);
-    expect(f.posts.list[0].author.username).toBe('Adam');
-});
+//     expect(f.posts.list[0].content).toBe(expectedContent);
+//     expect(f.posts.list[0].title).toBe(expectedTitle);
+//     expect(f.posts.list[0].author.username).toBe(expectedUserName);
+// });
 
 test('forum creates user properly', () => {
-    const f = new Forum('Python Forum');
+    const f = new Forum('C# Forum');
 
     f.createUser('Chris');
 
@@ -50,7 +62,7 @@ test('forum creates user properly', () => {
 });
 
 test('forum deletes post properly', () => {
-    const f = new Forum('Python Forum');
+    const f = new Forum('C++ Forum');
     UserPostCreated(f, userComment3times);
 
     const post = f.posts.list[0];

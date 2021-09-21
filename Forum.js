@@ -16,8 +16,7 @@ class Forum {
     createPost(user, content, title) {
         const id = user.id;
 
-        // console.log(this.posts.list.comments.list)
-        if ((this.users.list.some(u => u.id === id) && user.canPost(user.comments.list, this.forumName)) || user.isAdmin()) {
+        if ((this.users.list.some(u => u.id === id) && user.canPost(this.comments.list, this.forumName)) || user.isAdmin()) {
             this.posts.addPost(user, content, title, this.forumName);
             
         } else {

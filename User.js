@@ -6,7 +6,7 @@ class User {
     constructor(username) {
         this.id = v4();
         this.username = username;
-        this.comments = new Comments();
+        // this.comments = new Comments();
         this.posts = new Posts();
         this.admin = false;
     }
@@ -24,7 +24,7 @@ class User {
     }
 
     canPost(commentList, forumName) {
-        console.log(commentList)
+        // console.log(commentList)
         let count = 0;
         for (const comment of commentList) {
             if (comment.author.id === this.id && comment.forumName === forumName) {

@@ -13,7 +13,6 @@ class Post extends Text {
 
     addComment(author, content) {
         this.comments.addComment(author, content, this.forumName);
-        author.comments.addComment(author, content, this.forumName)
     }
 
     deleteComment(comment, user) {
@@ -43,5 +42,8 @@ class Post extends Text {
         })
     }
 }
-
+// const u = new User('ji');
+// const p = new Post(u, 'c', 't', 'f');
+// console.log('line start')
+// console.log(p)
 module.exports = Post;

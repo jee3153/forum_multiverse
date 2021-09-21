@@ -20,7 +20,7 @@ test('post sets title correctly', () => {
 
 test('comment is properly added to comments list', () => {
     const user = new User('Adam')
-    const p = new Post(user, 'some content', 'some title');
+    const p = new Post(user, 'some content', 'some title', 'forumName');
     const commenter = new User('Lauren');
     p.addComment(commenter, 'some claim');
 

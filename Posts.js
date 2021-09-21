@@ -13,7 +13,6 @@ class Posts {
     deletePost(post, user) {
         if (post.author.id === user.id || user.isAdmin()) {
             const i = this.list.findIndex(p => p.id === post.id)
-            console.log(i);
             this.list.splice(i, 1);
         }
     }
