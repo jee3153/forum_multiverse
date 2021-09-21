@@ -30,16 +30,14 @@ test('comment is properly added to comments list', () => {
 
 test('comment is deleted properly', () => {
     const id = v4();
-    const user = new User('Lauren');
-    const p = new Post(user, 'some content', 'some title');
-
-
-    p.addComment('Adam', 'some claim');
-    p.addComment('Pheobe', 'some oppinion');
-    p.comments.list[0].id = id;
-    p.deleteComment(id);
-    expect(p.comments.list).toHaveLength(1);
-   
+    const lauren = new User('Lauren');
+    const emily = new User('Emily')
+    const p = new Post(lauren, 'some content', 'some title');
+    const c = new Comment(emily, 'cmm', 'forumName');
+    p.comments.list = [c];
+    p.deleteComment(c, emily);
+    expect(p.comments.list).toHaveLength(0);
+     
 });
 
 test('throw an error when comment deletion attempted in empty list', () => {

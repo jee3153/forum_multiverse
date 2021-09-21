@@ -1,3 +1,4 @@
+const Comments = require('./Comments');
 const Post = require('./Post');
 const Posts = require('./Posts');
 const User = require('./User');
@@ -9,20 +10,19 @@ class Forum {
         this.forumName = name;
         this.users = new Users();
         this.posts = new Posts();
+        this.comments = new Comments();
     }
 
     createPost(user, content, title) {
         const id = user.id;
-        // console.log(this.users)
-        // const filtered = this.users.list.some(u => u.id === id);
-        // console.log(filtered);
-        if (this.users.list.some(u => u.id === id) && user.canPost()) {
-            // const filtered = this.users.list.filter(u => u.id !== id);
-            this.posts.addPost(user, content, title);
+
+        // console.log(this.posts.list.comments.list)
+        if ((this.users.list.some(u => u.id === id) && user.canPost(user.comments.list, this.forumName)) || user.isAdmin()) {
+            this.posts.addPost(user, content, title, this.forumName);
+            
         } else {
             throw new Error('user does not exist, create account first.');
         }
-        
     }
 
     deletePost(post, user) {

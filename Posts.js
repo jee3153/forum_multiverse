@@ -5,13 +5,13 @@ class Posts {
         this.list = []
     }
 
-    addPost(author, content, title) {
-        const p = new Post(author, content, title);
+    addPost(author, content, title, forumName) {
+        const p = new Post(author, content, title, forumName);
         this.list.push(p);
     }
 
     deletePost(post, user) {
-        if (post.author.id === user.id) {
+        if (post.author.id === user.id || user.isAdmin()) {
             const i = this.list.findIndex(p => p.id === post.id)
             console.log(i);
             this.list.splice(i, 1);

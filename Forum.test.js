@@ -5,7 +5,22 @@ const Posts = require('./Posts');
 const Forum = require('./Forum');
 const {v4} = require('uuid');
 const Comments = require('./Comments');
+const Comment = require('./Comment');
 
+const UserPostCreated = (forum, fn) => {
+    
+    forum.createUser('Adam');
+    const user = forum.users.list[0];
+    fn(user, forum);  
+    forum.createPost(user, 'content', 'title', forum.forumName);
+}
+
+const userComment3times = (user, forum) => {
+    for (let i = 0; i < 3; i++) {
+        const cmm = new Comment(user, 'comm', forum.forumName);
+        user.comments.list.push(cmm);
+    }
+}
 
 test('Forum sets forumName properly', () => {
     const f = new Forum('Python Forum');
@@ -15,11 +30,7 @@ test('Forum sets forumName properly', () => {
 
 test('forum creates post properly', () => {
     const f = new Forum('Python Forum');
-    // const user = new User('Adam');
-    f.createUser('Adam');
-    const user = f.users.list[0];
-    user.comments.list = ['c1', 'c2', 'c3'];
-    f.createPost(user, 'content', 'title');
+    UserPostCreated(f, userComment3times);
 
 
     const expectedContent = 'content';
@@ -32,7 +43,6 @@ test('forum creates post properly', () => {
 
 test('forum creates user properly', () => {
     const f = new Forum('Python Forum');
-    const id = v4();
 
     f.createUser('Chris');
 
@@ -41,13 +51,32 @@ test('forum creates user properly', () => {
 
 test('forum deletes post properly', () => {
     const f = new Forum('Python Forum');
+    UserPostCreated(f, userComment3times);
+
+    const post = f.posts.list[0];
+    const user = f.users.list[0];
+
+    f.deletePost(post, user);
+    expect(f.posts.list).toHaveLength(0);
+})
+
+test('deletion & creation of post allowed if an user is admin', () => {
+    const f = new Forum('Python Forum');
 
     f.createUser('Adam');
     const user = f.users.list[0];
-    user.comments.list = ['c1', 'c2', 'c3'];
-    f.createPost(user, 'content', 'title');
+    user.giveAuthority();
+    
+    f.createPost(user, 'content', 'title', f.forumName);
     const post = f.posts.list[0];
     f.deletePost(post, user);
     expect(f.posts.list).toHaveLength(0);
 })
 
+test('error thrown when a user without authorisation in attempt to post', () => {
+    const f = new Forum('Python Forum');
+    f.createUser('Adam');
+    const adam = f.users.list[0];
+    const expectedError = ('user does not exist, create account first.')
+    expect(() => f.createPost(adam, 'content', 'title', f.forumName)).toThrow(expectedError);
+})

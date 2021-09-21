@@ -5,8 +5,8 @@ class Comments {
         this.list = []
     }
 
-    addComment(author, content) {
-        const c = new Comment(author, content);
+    addComment(author, content, forumName) {
+        const c = new Comment(author, content, forumName);
         this.list.push(c);
     }
 

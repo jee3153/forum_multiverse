@@ -23,8 +23,21 @@ class User {
         return this.admin;
     }
 
-    canPost() {
-        return this.comments.list.length >= 3;
+    canPost(commentList, forumName) {
+        console.log(commentList)
+        let count = 0;
+        for (const comment of commentList) {
+            if (comment.author.id === this.id && comment.forumName === forumName) {
+                count++;
+            }
+
+            if (count >= 3) return true;
+        }
+        return false;
+    }
+
+    isAuthor(postOrComment) {
+        return postOrComment.author.id === this.id;
     }
 }
 

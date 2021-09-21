@@ -4,25 +4,29 @@ const User = require('./User');
 
 
 class Post extends Text {
-    constructor(author, content, title) {
+    constructor(author, content, title, forumName) {
         super(author, content);
         this.title = title;
         this.comments = new Comments();
+        this.forumName = forumName
     }
 
     addComment(author, content) {
-        this.comments.addComment(author, content);
+        this.comments.addComment(author, content, this.forumName);
+        author.comments.addComment(author, content, this.forumName)
     }
 
-    deleteComment(postId) {
+    deleteComment(comment, user) {
         const comments = this.comments.list;
-
         if (comments.length === 0) {
             throw new Error('the list is empty.');
         }
+
+        if (user.isAdmin() || user.isAuthor(comment)) {
+            const i = this.comments.list.findIndex(c => c.id === comment.id);
+            this.comments.list.splice(i, 1);
+        }
         
-        const filteredComments = comments.filter(comment => comment.id !== postId);
-        this.comments.list = filteredComments;
     }
 
     editContent(changedContent) {
